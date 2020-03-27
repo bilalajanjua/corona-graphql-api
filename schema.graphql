@@ -1,6 +1,7 @@
 scalar Date
 scalar JSON
 
+"Returns total number of cases, deaths, recovery with updated timestamp."
 type StatisticsAggregate {
   cases: Int
   deaths: Int
@@ -8,6 +9,7 @@ type StatisticsAggregate {
   updated: Date
 }
 
+"Returns country information with flag image."
 type CountryInfo {
   _id: Int
   lat: Int
@@ -17,6 +19,7 @@ type CountryInfo {
   iso2: String
 }
 
+"Returns coronavirus report of a country."
 type CountryReport {
   country: String
   countryInfo: CountryInfo
@@ -31,6 +34,7 @@ type CountryReport {
   deathsPerOneMillion: Int
 }
 
+"Returns coronavirus stats of an American State."
 type State {
   state: String
   cases: Int
@@ -40,11 +44,13 @@ type State {
   active: Int
 }
 
+"Returns timeseries data about cases and deaths."
 type TimeLine {
   cases: JSON
   deaths: JSON
 }
 
+"Returns historical report of a country with timeseries data."
 type CountryHistoricalReport {
   country: String
   province: String
