@@ -8,6 +8,7 @@
 Get Latest Reports about coronavirus (COVID-19) using GraphQL API
 
 </h4>
+
 # corona-graphql-api
 
 Get the updated statistics of Coronavirus or COVID-19 by using GraphQL API.
