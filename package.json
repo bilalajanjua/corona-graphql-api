@@ -1,0 +1,34 @@
+{
+  "name": "corona-graphql-api",
+  "version": "1.0.0",
+  "description": "A GraphQL API for getting coronavirus information.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": {
+    "name": "Bilal Ahmed Janjua",
+    "email": "bilalahmjan@gmail.com",
+    "url": "https://github.com/bilalajanjua/"
+  },
+  "dependencies": {
+    "apollo-server": "^2.11.0",
+    "axios": "^0.19.2",
+    "graphql": "^14.6.0",
+    "graphql-import": "^1.0.1",
+    "graphql-type-json": "^0.3.1",
+    "novelcovid": "^1.0.7-b3"
+  },
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/bilalajanjua/corona-graphql-api"
+  },
+  "keywords": [
+    "corona graphl",
+    "covid graphl",
+    "coronavirus graphl",
+    "coronavirus",
+    "covid",
+    "covid19"
+  ]
+}

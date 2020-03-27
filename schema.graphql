@@ -1,0 +1,62 @@
+scalar Date
+scalar JSON
+
+type StatisticsAggregate {
+  cases: Int
+  deaths: Int
+  recovered: Int
+  updated: Date
+}
+
+type CountryInfo {
+  _id: Int
+  lat: Int
+  long: Int
+  flag: String
+  iso3: String
+  iso2: String
+}
+
+type CountryReport {
+  country: String
+  countryInfo: CountryInfo
+  cases: Int
+  todayCases: Int
+  deaths: Int
+  todayDeaths: Int
+  recovered: Int
+  active: Int
+  critical: Int
+  casesPerOneMillion: Int
+  deathsPerOneMillion: Int
+}
+
+type State {
+  state: String
+  cases: Int
+  todayCases: Int
+  deaths: Int
+  todayDeaths: Int
+  active: Int
+}
+
+type TimeLine {
+  cases: JSON
+  deaths: JSON
+}
+
+type CountryHistoricalReport {
+  country: String
+  province: String
+  timeline: TimeLine
+}
+
+type Query {
+  all: StatisticsAggregate
+  countries(sort: String): [CountryReport]
+  country(name: String!): CountryReport
+  states(sort: String): [State]
+  state(name: String!): State
+  historical: [CountryHistoricalReport]
+  historicalByCountry(name: String!): CountryHistoricalReport
+}
