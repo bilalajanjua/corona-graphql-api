@@ -7,7 +7,10 @@ const resolvers = require("./resolvers");
 
 const server = new ApolloServer({
   typeDefs,
-  resolvers: { JSON: GraphQLJSON, ...resolvers }
+  resolvers: { JSON: GraphQLJSON, ...resolvers },
+  cacheControl: {
+    defaultMaxAge: 600
+  }
 });
 
 server.listen().then(({ url }) => {
