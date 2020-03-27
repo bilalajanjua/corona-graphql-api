@@ -1,3 +1,13 @@
+<h4 align="center">
+    <a href="https://github.com/bilalajanjua/corona-graphql-api">
+      <img src="https://github.com/bilalajanjua/corona-graphql-api/raw/master/.github/logo.jpg" alt="corona-graphql-api" />
+    </a>
+    <br>
+    <br>
+
+Get Latest Reports about coronavirus (COVID-19) using GraphQL API
+
+</h4>
 # corona-graphql-api
 
 Get the updated statistics of Coronavirus or COVID-19 by using GraphQL API.
