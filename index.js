@@ -10,7 +10,8 @@ const server = new ApolloServer({
   resolvers: { JSON: GraphQLJSON, ...resolvers },
   cacheControl: {
     defaultMaxAge: 600
-  }
+  },
+  playground: true
 });
 
 server.listen().then(({ url }) => {
