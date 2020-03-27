@@ -17,7 +17,8 @@ const resolvers = {
     historical: async () =>
       await (await axios.get(`${NOVEL_V2_API}/historical`)).data,
     historicalByCountry: async (parent, { name }, context, info) =>
-      await (await axios.get(`${NOVEL_V2_API}/historical/${name}`)).data
+      await (await axios.get(`${NOVEL_V2_API}/historical/${name}`)).data,
+    jhucsse: async () => await (await axios.get(`${NOVEL_V2_API}/jhucsse`)).data
   }
 };
 

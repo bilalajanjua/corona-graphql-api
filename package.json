@@ -4,7 +4,8 @@
   "description": "A GraphQL API for getting coronavirus information.",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "author": {
     "name": "Bilal Ahmed Janjua",

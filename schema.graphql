@@ -57,6 +57,28 @@ type CountryHistoricalReport {
   timeline: TimeLine
 }
 
+# Johns Hopkins CSSE Data Repository
+
+type JHCSSCStats {
+  confirmed: Int
+  deaths: Int
+  recovered: Int
+}
+
+type Coordinates {
+  latitude: String
+  longitude: String
+}
+
+"Return data from the Johns Hopkins CSSE Data Repository (Country, province, confirmed, death, recovered)"
+type JHCSSCReport {
+  country: String
+  province: String
+  updatedAt: Date
+  stats: JHCSSCStats
+  coordinates: Coordinates
+}
+
 type Query {
   all: StatisticsAggregate
   countries(sort: String): [CountryReport]
@@ -65,4 +87,5 @@ type Query {
   state(name: String!): State
   historical: [CountryHistoricalReport]
   historicalByCountry(name: String!): CountryHistoricalReport
+  jhucsse: [JHCSSCReport]
 }
