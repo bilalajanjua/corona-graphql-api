@@ -12,8 +12,8 @@ type StatisticsAggregate {
 "Returns country information with flag image."
 type CountryInfo {
   _id: Int
-  lat: Int
-  long: Int
+  lat: Float
+  long: Float
   flag: String
   iso3: String
   iso2: String
@@ -30,8 +30,8 @@ type CountryReport {
   recovered: Int
   active: Int
   critical: Int
-  casesPerOneMillion: Int
-  deathsPerOneMillion: Int
+  casesPerOneMillion: Float
+  deathsPerOneMillion: Float
 }
 
 "Returns coronavirus stats of an American State."
