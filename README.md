@@ -20,8 +20,7 @@ Following are the examples your queries you can use while making request to Grap
 
 ### Get Worldwide Statistics
 
-```
-# Change the name with your desired country.
+```# Change the name with your desired country.
 
 query {
   all {
@@ -31,14 +30,11 @@ query {
     updated
   }
 }
-
-
 ```
 
 ### Get Reports of All Countries
 
-```
-# Query reports without sorting
+```# Query reports without sorting
 
 query {
   countries {
@@ -85,13 +81,11 @@ query {
     deathsPerOneMillion
   }
 }
-
 ```
 
 **Get Historical Data of All Countries**
 
-```
-query {
+```query {
   historical {
     country
     province
@@ -105,8 +99,7 @@ query {
 
 ### Get Report of a Country
 
-```
-# Change the name with your desired country.
+```# Change the name with your desired country.
 
 query {
   country(name: "Italy") {
@@ -115,13 +108,11 @@ query {
     todayCases
   }
 }
-
 ```
 
 **Get Historical Data of a Country**
 
-```
-query {
+```query {
   historicalByCountry(name: "pakistan") {
     country
     province
@@ -131,14 +122,11 @@ query {
     }
   }
 }
-
 ```
 
 ### Get Reports of U.S. States
 
-```
-
-query {
+```query {
   states {
     state
     cases
@@ -148,14 +136,11 @@ query {
     active
   }
 }
-
 ```
 
 ### Get Reports from Johns Hopkins CSSE Data Repository
 
-```
-
-query {
+```query {
   jhucsse {
     country
     province
@@ -171,7 +156,6 @@ query {
     }
   }
 }
-
 ```
 
 ## Documentation
