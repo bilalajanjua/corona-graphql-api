@@ -32,8 +32,6 @@ Following are the examples your queries you can use while making request to Grap
 ### Get Worldwide Statistics
 
 ```
-# Change the name with your desired country.
-
 query {
   all {
     cases
@@ -47,7 +45,7 @@ query {
 ### Get Reports of All Countries
 
 ```
-# Query reports without sorting
+# Get reports of all countries without sorting
 
 query {
   countries {
