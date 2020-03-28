@@ -109,6 +109,24 @@ query {
 }
 ```
 
+### Get Sum of Cases and Deaths of Countries Historical Data
+
+```
+query {
+  worldwideHistoricalData {
+    cases {
+      date
+      count
+    }
+    deaths {
+      date
+      count
+    }
+  }
+}
+
+```
+
 ### Get Report of a Country
 
 ```

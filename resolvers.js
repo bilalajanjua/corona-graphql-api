@@ -18,7 +18,24 @@ const resolvers = {
       await (await axios.get(`${NOVEL_V2_API}/historical`)).data,
     historicalByCountry: async (parent, { name }, context, info) =>
       await (await axios.get(`${NOVEL_V2_API}/historical/${name}`)).data,
-    jhucsse: async () => await (await axios.get(`${NOVEL_V2_API}/jhucsse`)).data
+    jhucsse: async () => await (await axios.get(`${NOVEL_V2_API}/jhucsse`)).data,
+    worldwideHistoricalData: async () => {
+      const data = await (await axios.get(`${NOVEL_V2_API}/historical`)).data
+      const dates = Object.keys(data[0].timeline.cases);
+      const cases = dates.map(date => {
+        return {
+          date,
+          count: data.reduce((sum, current) => sum + current.timeline.cases[date], 0) 
+        }
+      });
+      const deaths = dates.map(date => {
+        return {
+          date,
+          count: data.reduce((sum, current) => sum + current.timeline.deaths[date], 0) 
+        }
+      });
+      return { cases, deaths };
+    }
   }
 };
 

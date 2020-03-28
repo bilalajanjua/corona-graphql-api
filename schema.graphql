@@ -79,6 +79,16 @@ type JHCSSCReport {
   coordinates: Coordinates
 }
 
+type AggregatedHistoricalData {
+  date: Date
+  count: Int
+}
+
+type WorldwideHistoricalData {
+  cases: [AggregatedHistoricalData]
+  deaths: [AggregatedHistoricalData]
+}
+
 type Query {
   all: StatisticsAggregate
   countries(sort: String): [CountryReport]
@@ -88,4 +98,5 @@ type Query {
   historical: [CountryHistoricalReport]
   historicalByCountry(name: String!): CountryHistoricalReport
   jhucsse: [JHCSSCReport]
+  worldwideHistoricalData: WorldwideHistoricalData
 }
