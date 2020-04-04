@@ -1,6 +1,26 @@
 scalar Date
 scalar JSON
 
+enum COUNTRYSORT {
+  cases
+  todayCases
+  deaths
+  todayDeaths
+  recovered
+  active
+  critical
+  casesPerOneMillion
+  deathsPerOneMillion
+}
+
+enum STATESORT {
+  cases
+  todayCases
+  deaths
+  todayDeaths
+  active
+}
+
 "Returns total number of cases, deaths, recovery with updated timestamp."
 type StatisticsAggregate {
   cases: Int
@@ -34,6 +54,7 @@ type CountryReport {
   critical: Int
   casesPerOneMillion: Float
   deathsPerOneMillion: Float
+  updated: Date
 }
 
 "Returns coronavirus stats of an American State."
@@ -50,10 +71,17 @@ type State {
 type TimeLine {
   cases: JSON
   deaths: JSON
+  recovered: JSON
 }
 
 "Returns historical report of a country with timeseries data."
-type CountryHistoricalReport {
+type SingleHistoricalReport {
+  country: String
+  provinces: [String]
+  timeline: TimeLine
+}
+
+type HistoricalReport {
   country: String
   province: String
   timeline: TimeLine
@@ -89,16 +117,22 @@ type AggregatedHistoricalData {
 type WorldwideHistoricalData {
   cases: [AggregatedHistoricalData]
   deaths: [AggregatedHistoricalData]
+  recovered: [AggregatedHistoricalData]
 }
 
 type Query {
   all: StatisticsAggregate
-  countries(sort: String): [CountryReport]
+  yesterday(sort: COUNTRYSORT): [CountryReport]
+  countries(sort: COUNTRYSORT): [CountryReport]
   country(name: String!): CountryReport
-  states(sort: String): [State]
+  states(sort: STATESORT): [State]
   state(name: String!): State
-  historical: [CountryHistoricalReport]
-  historicalByCountry(name: String!): CountryHistoricalReport
+  historical: [HistoricalReport]
+  historicalByCountry(name: String!): SingleHistoricalReport
+  historicalByCountryProvince(
+    country: String!
+    province: String!
+  ): HistoricalReport
   jhucsse: [JHCSSCReport]
   worldwideHistoricalData: WorldwideHistoricalData
 }
