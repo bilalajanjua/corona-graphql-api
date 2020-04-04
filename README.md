@@ -16,6 +16,7 @@ Get the updated statistics of Coronavirus or COVID-19 by using GraphQL API.
 - Worldwide Coronavirus Reports
 - Updated Daily
 - Get Statistics about total and new cases, deaths, recovered, active and critical coronavirus counts.
+- Know whether the cases, deaths, recovered etc. are increasing are decresing based on previous reports.
 - Get historical data of any country about Coronavirus.
 - Use the power of GraphQL and make your own dashboard to analyze the reports.
 
@@ -37,7 +38,12 @@ query {
     cases
     deaths
     recovered
+    active
+    affectedCountries
     updated
+    todayCases
+    todayDeaths
+    casesPerOneMillion
   }
 }
 ```
@@ -65,6 +71,11 @@ query {
     critical
     casesPerOneMillion
     deathsPerOneMillion
+    analysis {
+      cases
+      recovered
+    }
+    updated
   }
 }
 ```
@@ -90,6 +101,11 @@ query {
     critical
     casesPerOneMillion
     deathsPerOneMillion
+    analysis {
+      cases
+      recovered
+    }
+    updated
   }
 }
 ```
@@ -109,7 +125,7 @@ query {
 }
 ```
 
-### Get Sum of Cases and Deaths of Countries Historical Data
+### Get Sum of Cases, Deaths & Recovered Counts of All Countries Historical Data
 
 ```
 query {
@@ -119,6 +135,10 @@ query {
       count
     }
     deaths {
+      date
+      count
+    }
+    recovered {
       date
       count
     }
@@ -137,6 +157,11 @@ query {
     deaths
     cases
     todayCases
+    analysis {
+      cases,
+      todayCases,
+    	recovered
+    }
   }
 }
 ```

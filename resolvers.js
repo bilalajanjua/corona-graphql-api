@@ -56,8 +56,41 @@ const resolvers = {
         ? countries.sort((a, b) => parseFloat(b[sort]) - parseFloat(a[sort]))
         : countries;
     },
-    country: async (parent, { name: country }, context, info) =>
-      await covid.countries(country),
+    country: async (parent, { name }, context, info) => {
+      const country = await covid.countries(name);
+      const yesterday = await (await axios.get(`${NOVEL_V1_API}/yesterday`))
+        .data;
+      const yesterdayResult = yesterday.find(
+        c => c.country === country.country
+      );
+      const analysis = {};
+      [
+        "cases",
+        "todayCases",
+        "deaths",
+        "todayDeaths",
+        "recovered",
+        "active",
+        "critical"
+      ].forEach(criteria => {
+        analysis[criteria] = {
+          status:
+            country[criteria] > yesterdayResult[criteria]
+              ? "Increasing"
+              : country[criteria] == yesterdayResult[criteria]
+              ? "Same as Yesterday"
+              : "Descreasing",
+          percentage:
+            country[criteria] >= yesterdayResult[criteria]
+              ? (country[criteria] / yesterdayResult[criteria]).toFixed(2)
+              : (yesterdayResult[criteria] / country[criteria]).toFixed(2)
+        };
+      });
+      return {
+        ...country,
+        analysis
+      };
+    },
     states: async (parent, { sort }, context, info) => {
       const states = await covid.states();
       return sort
