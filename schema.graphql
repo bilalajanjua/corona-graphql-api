@@ -6,6 +6,8 @@ type StatisticsAggregate {
   cases: Int
   deaths: Int
   recovered: Int
+  active: Int
+  affectedCountries: Int
   updated: Date
 }
 
