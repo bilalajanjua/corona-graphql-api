@@ -24,9 +24,14 @@ enum STATESORT {
 "Returns total number of cases, deaths, recovery with updated timestamp."
 type StatisticsAggregate {
   cases: Int
+  todayCases: Int
   deaths: Int
+  todayDeaths: Int
   recovered: Int
   active: Int
+  critical: Int
+  casesPerOneMillion: Float
+  deathsPerOneMillion: Float
   affectedCountries: Int
   updated: Date
 }
@@ -39,6 +44,17 @@ type CountryInfo {
   flag: String
   iso3: String
   iso2: String
+}
+
+"Returns the Status and Percentage of Increase/Decrease of today's data in comparison with yesterday's data"
+type Analysis {
+  cases: JSON
+  todayCases: JSON
+  deaths: JSON
+  todayDeaths: JSON
+  recovered: JSON
+  active: JSON
+  critical: JSON
 }
 
 "Returns coronavirus report of a country."
@@ -54,6 +70,7 @@ type CountryReport {
   critical: Int
   casesPerOneMillion: Float
   deathsPerOneMillion: Float
+  analysis: Analysis
   updated: Date
 }
 

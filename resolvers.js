@@ -12,13 +12,46 @@ const resolvers = {
     yesterday: async (parent, { sort }, context, info) => {
       const countries = await (await axios.get(`${NOVEL_V1_API}/yesterday`))
         .data;
-      if (!countries) return null;
       return sort
         ? countries.sort((a, b) => parseFloat(b[sort]) - parseFloat(a[sort]))
         : countries;
     },
     countries: async (parent, { sort }, context, info) => {
-      const countries = await covid.countries();
+      const current = await covid.countries();
+      const yesterday = await (await axios.get(`${NOVEL_V1_API}/yesterday`))
+        .data;
+      const countries = await current.map(country => {
+        const yesterdayResult = yesterday.find(
+          c => c.country === country.country
+        );
+        const analysis = {};
+        [
+          "cases",
+          "todayCases",
+          "deaths",
+          "todayDeaths",
+          "recovered",
+          "active",
+          "critical"
+        ].forEach(criteria => {
+          analysis[criteria] = {
+            status:
+              country[criteria] > yesterdayResult[criteria]
+                ? "Increasing"
+                : country[criteria] == yesterdayResult[criteria]
+                ? "Same as Yesterday"
+                : "Descreasing",
+            percentage:
+              country[criteria] >= yesterdayResult[criteria]
+                ? (country[criteria] / yesterdayResult[criteria]).toFixed(2)
+                : (yesterdayResult[criteria] / country[criteria]).toFixed(2)
+          };
+        });
+        return {
+          ...country,
+          analysis
+        };
+      });
       return sort
         ? countries.sort((a, b) => parseFloat(b[sort]) - parseFloat(a[sort]))
         : countries;
