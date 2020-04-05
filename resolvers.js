@@ -20,10 +20,17 @@ const resolvers = {
       const current = await covid.countries();
       const yesterday = await (await axios.get(`${NOVEL_V1_API}/yesterday`))
         .data;
-      const countries = await current.map(country => {
+      const countries = await current.map((country) => {
+        console.log("Current Country: ", country);
         const yesterdayResult = yesterday.find(
-          c => c.country === country.country
+          (c) => c.country === country.country
         );
+        if (!yesterdayResult) {
+          return {
+            ...country,
+            analysis: null,
+          };
+        }
         const analysis = {};
         [
           "cases",
@@ -32,24 +39,26 @@ const resolvers = {
           "todayDeaths",
           "recovered",
           "active",
-          "critical"
-        ].forEach(criteria => {
-          analysis[criteria] = {
-            status:
-              country[criteria] > yesterdayResult[criteria]
-                ? "Increasing"
-                : country[criteria] == yesterdayResult[criteria]
-                ? "Same as Yesterday"
-                : "Descreasing",
-            percentage:
-              country[criteria] >= yesterdayResult[criteria]
-                ? (country[criteria] / yesterdayResult[criteria]).toFixed(2)
-                : (yesterdayResult[criteria] / country[criteria]).toFixed(2)
-          };
+          "critical",
+        ].forEach((criteria) => {
+          if (country[criteria]) {
+            analysis[criteria] = {
+              status:
+                country[criteria] > yesterdayResult[criteria]
+                  ? "Increasing"
+                  : country[criteria] == yesterdayResult[criteria]
+                  ? "Same as Yesterday"
+                  : "Descreasing",
+              percentage:
+                country[criteria] >= yesterdayResult[criteria]
+                  ? (country[criteria] / yesterdayResult[criteria]).toFixed(2)
+                  : (yesterdayResult[criteria] / country[criteria]).toFixed(2),
+            };
+          }
         });
         return {
           ...country,
-          analysis
+          analysis,
         };
       });
       return sort
@@ -61,7 +70,7 @@ const resolvers = {
       const yesterday = await (await axios.get(`${NOVEL_V1_API}/yesterday`))
         .data;
       const yesterdayResult = yesterday.find(
-        c => c.country === country.country
+        (c) => c.country === country.country
       );
       const analysis = {};
       [
@@ -71,8 +80,8 @@ const resolvers = {
         "todayDeaths",
         "recovered",
         "active",
-        "critical"
-      ].forEach(criteria => {
+        "critical",
+      ].forEach((criteria) => {
         analysis[criteria] = {
           status:
             country[criteria] > yesterdayResult[criteria]
@@ -83,12 +92,12 @@ const resolvers = {
           percentage:
             country[criteria] >= yesterdayResult[criteria]
               ? (country[criteria] / yesterdayResult[criteria]).toFixed(2)
-              : (yesterdayResult[criteria] / country[criteria]).toFixed(2)
+              : (yesterdayResult[criteria] / country[criteria]).toFixed(2),
         };
       });
       return {
         ...country,
-        analysis
+        analysis,
       };
     },
     states: async (parent, { sort }, context, info) => {
@@ -100,7 +109,7 @@ const resolvers = {
     state: async (parent, { name: state }, context, info) => {
       const states = await covid.states();
       return states.find(
-        res => res.state.toLowerCase() === state.toLowerCase()
+        (res) => res.state.toLowerCase() === state.toLowerCase()
       );
     },
     historical: async () => await covid.historical(),
@@ -124,24 +133,24 @@ const resolvers = {
       const deaths = [];
       const recovered = [];
 
-      dates.forEach(date => {
+      dates.forEach((date) => {
         cases.push({
           date,
-          count: data.cases[date]
+          count: data.cases[date],
         });
         deaths.push({
           date,
-          count: data.deaths[date]
+          count: data.deaths[date],
         });
         recovered.push({
           date,
-          count: data.recovered[date]
+          count: data.recovered[date],
         });
       });
 
       return { cases, deaths, recovered };
-    }
-  }
+    },
+  },
 };
 
 module.exports = resolvers;
