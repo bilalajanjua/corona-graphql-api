@@ -1,25 +1,23 @@
 const axios = require("axios").default;
-const { NovelCovid } = require("novelcovid");
 
-const covid = new NovelCovid();
-
-const NOVEL_V1_API = "https://corona.lmao.ninja";
 const NOVEL_V2_API = "https://corona.lmao.ninja/v2";
 
 const resolvers = {
   Query: {
-    all: async () => await covid.all(),
+    all: async () => await (await axios.get(`${NOVEL_V2_API}/all`)).data,
     yesterday: async (parent, { sort }, context, info) => {
-      const countries = await (await axios.get(`${NOVEL_V1_API}/yesterday`))
-        .data;
+      const countries = await (
+        await axios.get(`${NOVEL_V2_API}/countries?yesterday=true`)
+      ).data;
       return sort
         ? countries.sort((a, b) => parseFloat(b[sort]) - parseFloat(a[sort]))
         : countries;
     },
     countries: async (parent, { sort }, context, info) => {
-      const current = await covid.countries();
-      const yesterday = await (await axios.get(`${NOVEL_V1_API}/yesterday`))
-        .data;
+      const current = await (await axios.get(`${NOVEL_V2_API}/countries`)).data;
+      const yesterday = await (
+        await axios.get(`${NOVEL_V2_API}/countries?yesterday=true`)
+      ).data;
       const countries = await current.map((country) => {
         console.log("Current Country: ", country);
         const yesterdayResult = yesterday.find(
@@ -66,9 +64,13 @@ const resolvers = {
         : countries;
     },
     country: async (parent, { name }, context, info) => {
-      const country = await covid.countries(name);
-      const yesterday = await (await axios.get(`${NOVEL_V1_API}/yesterday`))
-        .data;
+      const country = await (
+        await axios.get(`${NOVEL_V2_API}/countries/${name}`)
+      ).data;
+
+      const yesterday = await (
+        await axios.get(`${NOVEL_V2_API}/countries?yesterday=true`)
+      ).data;
       const yesterdayResult = yesterday.find(
         (c) => c.country === country.country
       );
@@ -101,20 +103,18 @@ const resolvers = {
       };
     },
     states: async (parent, { sort }, context, info) => {
-      const states = await covid.states();
+      const states = await (await axios.get(`${NOVEL_V2_API}/states`)).data;
       return sort
         ? states.sort((a, b) => parseFloat(b[sort]) - parseFloat(a[sort]))
         : states;
     },
     state: async (parent, { name: state }, context, info) => {
-      const states = await covid.states();
-      return states.find(
-        (res) => res.state.toLowerCase() === state.toLowerCase()
-      );
+      return await (await axios.get(`${NOVEL_V2_API}/states/${state}`)).data;
     },
-    historical: async () => await covid.historical(),
+    historical: async () =>
+      await (await axios.get(`${NOVEL_V2_API}/historical`)).data,
     historicalByCountry: async (parent, { name: country }, context, info) =>
-      await covid.historical(null, country),
+      await (await axios.get(`${NOVEL_V2_API}/historical/${country}`)).data,
     historicalByCountryProvince: async (
       parent,
       { country, province },
@@ -124,9 +124,11 @@ const resolvers = {
       await (
         await axios.get(`${NOVEL_V2_API}/historical/${country}/${province}`)
       ).data,
-    jhucsse: async () => await covid.jhucsse(),
+    jhucsse: async () =>
+      await (await axios.get(`${NOVEL_V2_API}/jhucsse`)).data,
     worldwideHistoricalData: async () => {
-      const data = await covid.historical(true);
+      const data = await (await axios.get(`${NOVEL_V2_API}/historical/all`))
+        .data;
       const dates = Object.keys(data.cases);
 
       const cases = [];

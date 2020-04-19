@@ -17,8 +17,7 @@
     "axios": "^0.19.2",
     "graphql": "^14.6.0",
     "graphql-import": "^1.0.1",
-    "graphql-type-json": "^0.3.1",
-    "novelcovid": "^1.1.2"
+    "graphql-type-json": "^0.3.1"
   },
   "license": "MIT",
   "repository": {
